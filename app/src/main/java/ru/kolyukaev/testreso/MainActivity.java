@@ -16,16 +16,12 @@ public class MainActivity extends MvpAppCompatActivity {
 
     private FragmentManager fragmentManager;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getWindow().setStatusBarColor(getApplicationContext().getColor(R.color.status));
-
         fragmentManager = getSupportFragmentManager();
-
         commitFragmentTransaction(new ButtonsFragment());
     }
 

@@ -11,7 +11,8 @@ import ru.kolyukaev.testreso.data.network.response.Region;
 public interface DataOfRegionService {
 
     @GET("/free/v2/myregion/{lat}/{lon}")
-    Call<List<Region>> loadRegion(@Path("lat") double lat,
-                                 @Path("lon") double lon);
-
+    Call<List<Region>> loadRegion(
+            @Path("lat") double lat,
+            @Path("lon") double lon
+    );
 }

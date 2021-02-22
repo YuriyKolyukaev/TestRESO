@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -17,7 +18,12 @@ import ru.kolyukaev.testreso.data.model.Office;
 
 public class OfficesAdapter extends RecyclerView.Adapter<OfficesAdapter.OfficeViewHolder> {
 
-    public List<Office> officesList = new ArrayList<>();
+    private final List<Office> officesList = new ArrayList<>();
+    private OfficeItemListener listener;
+
+    public OfficesAdapter(OfficeItemListener listener) {
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -27,7 +33,11 @@ public class OfficesAdapter extends RecyclerView.Adapter<OfficesAdapter.OfficeVi
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(officeCell, parent, false);
-        return new OfficeViewHolder(view);
+        OfficeViewHolder holder = new OfficeViewHolder(view);
+        view.setOnClickListener(v -> {
+            listener.itemClick(officesList.get(holder.getAdapterPosition()).getsShortName());
+        });
+        return holder;
     }
 
     @Override
@@ -44,10 +54,11 @@ public class OfficesAdapter extends RecyclerView.Adapter<OfficesAdapter.OfficeVi
         TextView shortName;
         TextView shortAdress;
         TextView isOpen;
+        Context context;
 
         public OfficeViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            context = itemView.getContext();
             shortName = itemView.findViewById(R.id.tv_short_name);
             shortAdress = itemView.findViewById(R.id.tv_short_adress);
             isOpen = itemView.findViewById(R.id.tv_status);
@@ -57,9 +68,11 @@ public class OfficesAdapter extends RecyclerView.Adapter<OfficesAdapter.OfficeVi
             shortName.setText(office.getsShortName());
             shortAdress.setText(office.getsShortAddress());
             if (office.isOpen()) {
-                isOpen.setText(R.string.true_);
+                isOpen.setText(R.string.open_office);
+                isOpen.setTextColor(ContextCompat.getColor(context, R.color.green));
             } else {
-                isOpen.setText(R.string.false_);
+                isOpen.setText(R.string.close_office);
+                isOpen.setTextColor(ContextCompat.getColor(context, R.color.red));
             }
         }
     }

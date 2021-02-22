@@ -2,9 +2,10 @@
     <string name="app_name">TestRESO</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="get_coordinates">текущие координаты</string>
-    <string name="get_region">регион</string>
-    <string name="show_offices">список офисов</string>
-    <string name="true_">Открыто</string>
-    <string name="false_">Закрыто</string>
+    <string name="get_coordinates">Получить текущие координаты</string>
+    <string name="get_region">Получить регион</string>
+    <string name="show_offices">Открыть список офисов</string>
+    <string name="open_office">Открыто</string>
+    <string name="close_office">Закрыто</string>
+    <string name="close">Закрыть</string>
 </resources>

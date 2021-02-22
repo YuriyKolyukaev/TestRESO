@@ -8,7 +8,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
-
-import java.util.Objects;
 
 import moxy.presenter.InjectPresenter;
 import ru.kolyukaev.testreso.R;
@@ -44,16 +41,18 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     public Button btnGetRegion;
     public Button btnShowOffices;
 
-    public final static String REGION = "Region";
+    public final static String ARG_REGION = "Region";
 
     @InjectPresenter
     ButtonsPresenter buttonsPresenter;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState
+    ) {
         return inflater.inflate(R.layout.fragment_buttons, container, false);
     }
 
@@ -65,7 +64,7 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
         btnGetRegion = view.findViewById(R.id.bt_get_region);
         btnShowOffices = view.findViewById(R.id.bt_get_offies);
 
-        View.OnClickListener oclBtnGetCoordinates = v -> init();
+        View.OnClickListener oclBtnGetCoordinates = v -> findLocation();
         btnGetCoordinates.setOnClickListener(oclBtnGetCoordinates);
 
         View.OnClickListener oclBtnGetRegion = v -> getRegion(lat, lon);
@@ -76,9 +75,8 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     }
 
     @Override
-    public void init() {
-        locationManager = (LocationManager) Objects.requireNonNull(getActivity())
-                .getSystemService(Context.LOCATION_SERVICE);
+    public void findLocation() {
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myLocationListener = new MyLocationListener();
         myLocationListener.setLocationListener(this);
         checkPermission();
@@ -87,23 +85,27 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     // запрос разрашения GPS, если ещё не дано.
     private void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 600, 1000, myLocationListener);
+            btnGetCoordinates.setEnabled(false);
             btnGetRegion.setEnabled(true);
         }
     }
 
     // ответ резрешения GPS
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults[0] == RESULT_CANCELED) {
             checkPermission();
+            btnGetCoordinates.setEnabled(false);
             btnGetRegion.setEnabled(true);
         } else {
             Toast.makeText(getActivity(), "No GPS permission", Toast.LENGTH_SHORT).show();
@@ -127,16 +129,16 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     @Override
     public void regionReceived(int regionNumber) {
         this.regionNumber = regionNumber;
+        btnGetRegion.setEnabled(false);
         btnShowOffices.setEnabled(true);
     }
 
     // передать регион
     private void sendBundleData(int regionNumber) {
-        Log.i("kyus ", "regionNumber =  " + regionNumber);
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         OfficeListFragment officeListFragment = new OfficeListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(REGION, regionNumber);
+        bundle.putInt(ARG_REGION, regionNumber);
         officeListFragment.setArguments(bundle);
         transaction.replace(R.id.container, officeListFragment);
         transaction.addToBackStack(null);
@@ -148,5 +150,10 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
         Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
     }
 
-
+    @Override
+    public void onDestroyView() {
+        btnShowOffices.setEnabled(false);
+        btnGetCoordinates.setEnabled(true);
+        super.onDestroyView();
+    }
 }

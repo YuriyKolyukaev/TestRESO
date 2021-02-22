@@ -23,8 +23,6 @@ public class ButtonsProvider {
     }
 
     public void loadingRegion(double lat, double lon) {
-        Log.i("kyus1", "lat " + lat + " lon " + lon);
-
         Call<List<Region>> call = dataOfRegionService.loadRegion(lat, lon);
         call.enqueue(new Callback<List<Region>>() {
             @Override
@@ -37,6 +35,8 @@ public class ButtonsProvider {
                 if (response.code() == 200) {
                     Integer region = response.body().get(0).getId();
                     buttonsPresenter.loadedRegion(region);
+                } else {
+                    buttonsPresenter.onError("Error: " + response.code());
                 }
             }
         });

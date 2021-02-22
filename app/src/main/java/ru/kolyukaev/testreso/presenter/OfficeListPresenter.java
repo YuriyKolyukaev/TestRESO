@@ -1,7 +1,5 @@
 package ru.kolyukaev.testreso.presenter;
 
-import android.util.Log;
-
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,7 +13,6 @@ import ru.kolyukaev.testreso.view.OfficeListView;
 @InjectViewState
 public class OfficeListPresenter extends MvpPresenter<OfficeListView> {
 
-
     public void loadOffices(int region) {
         new OfficeListProvider(this).loadingOffices(region);
     }
@@ -25,7 +22,6 @@ public class OfficeListPresenter extends MvpPresenter<OfficeListView> {
     }
 
     public void onListOfficeLoaded(List<Office> offices) {
-
         for (Office office : offices) {
             Graf currentGraf = null;
 

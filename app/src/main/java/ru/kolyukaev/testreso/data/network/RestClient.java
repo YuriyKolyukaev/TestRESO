@@ -10,6 +10,8 @@ import ru.kolyukaev.testreso.data.network.api.DataOfRegionService;
 
 public class RestClient {
 
+    private static final String WEB_SERVER_URL = "https://mobile.reso.ru/";
+
     Interceptor createLoggingInterceptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -21,7 +23,7 @@ public class RestClient {
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(loggingInterceptor).build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://mobile.reso.ru/")
+                .baseUrl(WEB_SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -33,7 +35,7 @@ public class RestClient {
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(loggingInterceptor).build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://mobile.reso.ru/")
+                .baseUrl(WEB_SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
