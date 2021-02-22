@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.fragments.ButtonsFragment" >
+
+    <Button
+        android:id="@+id/bt_get_coordinates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:text="@string/get_coordinates"
+        android:textSize="@dimen/buttons_text_size" />
+
+    <Button
+        android:id="@+id/bt_get_region"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/get_region"
+        android:textSize="@dimen/buttons_text_size"
+        />
+
+    <Button
+        android:id="@+id/bt_get_offies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:enabled="false"
+        android:text="@string/show_offices"
+        android:textSize="@dimen/buttons_text_size"
+        />
+</androidx.appcompat.widget.LinearLayoutCompat>
