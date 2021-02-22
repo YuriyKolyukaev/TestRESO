@@ -110,10 +110,9 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
         if (requestCode == 100 && grantResults[0] == RESULT_CANCELED) {
             checkPermission();
             btnGetCoordinates.setEnabled(false);
-            btnGetRegion.setEnabled(true);
-            progress.setVisibility(View.INVISIBLE);
         } else {
             Toast.makeText(getActivity(), "No GPS permission", Toast.LENGTH_SHORT).show();
+            progress.setVisibility(View.INVISIBLE);
         }
     }
 
