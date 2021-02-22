@@ -61,7 +61,7 @@ public class OfficeListPresenter extends MvpPresenter<OfficeListView> {
     }
 
     private String[] getTimeArrayFromGraf(String time) {
-        return time.trim().split("[.–]");
+        return time.trim().split("[.–(]");
     }
 
     private int getSimpleTime(String grafTime, boolean isHour) {

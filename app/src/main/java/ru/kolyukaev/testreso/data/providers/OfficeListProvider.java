@@ -38,9 +38,9 @@ public class OfficeListProvider {
             @Override
             public void onResponse(@NotNull Call<List<FullResponceOfOffices>> call, @NotNull Response<List<FullResponceOfOffices>> response) {
                 if (response.code() == 200) {
-
                     List<FullResponceOfOffices> fullResponse = response.body();
                     List<Office> officeResponce = new ArrayList<>();
+                    Log.i("dasdas", "onResponse: " + fullResponse.size());
 
                     for (int i = 0; i < fullResponse.size(); i++) {
                         Office office = new Office();
@@ -53,6 +53,7 @@ public class OfficeListProvider {
                         officeResponce.add(office);
                     }
 
+                    Log.i("dasdas", "onResponse: " + officeResponce.size());
                     officeListPresenter.onListOfficeLoaded(officeResponce);
                 }
             }

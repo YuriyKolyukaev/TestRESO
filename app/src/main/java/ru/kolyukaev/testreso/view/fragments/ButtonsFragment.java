@@ -8,10 +8,12 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,9 +39,10 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     private double lon = 0;
     int regionNumber = 0;
 
-    public Button btnGetCoordinates;
-    public Button btnGetRegion;
-    public Button btnShowOffices;
+    private Button btnGetCoordinates;
+    private Button btnGetRegion;
+    private Button btnShowOffices;
+    private ProgressBar progress;
 
     public final static String ARG_REGION = "Region";
 
@@ -63,6 +66,7 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
         btnGetCoordinates = view.findViewById(R.id.bt_get_coordinates);
         btnGetRegion = view.findViewById(R.id.bt_get_region);
         btnShowOffices = view.findViewById(R.id.bt_get_offies);
+        progress = view.findViewById(R.id.progress);
 
         View.OnClickListener oclBtnGetCoordinates = v -> findLocation();
         btnGetCoordinates.setOnClickListener(oclBtnGetCoordinates);
@@ -80,6 +84,8 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
         myLocationListener = new MyLocationListener();
         myLocationListener.setLocationListener(this);
         checkPermission();
+        btnGetCoordinates.setEnabled(false);
+        progress.setVisibility(View.VISIBLE);
     }
 
     // запрос разрашения GPS, если ещё не дано.
@@ -90,8 +96,6 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
         } else {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 600, 1000, myLocationListener);
-            btnGetCoordinates.setEnabled(false);
-            btnGetRegion.setEnabled(true);
         }
     }
 
@@ -107,6 +111,7 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
             checkPermission();
             btnGetCoordinates.setEnabled(false);
             btnGetRegion.setEnabled(true);
+            progress.setVisibility(View.INVISIBLE);
         } else {
             Toast.makeText(getActivity(), "No GPS permission", Toast.LENGTH_SHORT).show();
         }
@@ -115,6 +120,10 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     // получить координаты
     @Override
     public void onLocationChanged(Location loc) {
+        Log.i("dfsdgfds", "onLocationChanged: " + loc.getLatitude() + "   " + loc.getLongitude());
+        btnGetCoordinates.setEnabled(false);
+        btnGetRegion.setEnabled(true);
+        progress.setVisibility(View.INVISIBLE);
         lat = loc.getLatitude();
         lon = loc.getLongitude();
     }
@@ -122,6 +131,7 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     // получить регион
     @Override
     public void getRegion(double lat, double lon) {
+        progress.setVisibility(View.VISIBLE);
         buttonsPresenter.loadRegion(lat, lon);
     }
 
@@ -130,6 +140,7 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     public void regionReceived(int regionNumber) {
         this.regionNumber = regionNumber;
         btnGetRegion.setEnabled(false);
+        progress.setVisibility(View.INVISIBLE);
         btnShowOffices.setEnabled(true);
     }
 
