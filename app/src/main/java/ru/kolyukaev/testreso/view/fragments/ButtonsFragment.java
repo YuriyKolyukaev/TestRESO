@@ -90,11 +90,14 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
 
     // запрос разрашения GPS, если ещё не дано.
     private void checkPermission() {
+        Log.i("kyus", "checkPermission: ");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+            Log.i("kyus", "true checkPermission: ");
         } else {
+            Log.i("kyus", "else checkPermission: ");
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 600, 1000, myLocationListener);
         }
     }
@@ -110,7 +113,9 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
         if (requestCode == 100 && grantResults[0] == RESULT_CANCELED) {
             checkPermission();
             btnGetCoordinates.setEnabled(false);
+            Log.i("kyus", "true onRequestPermissionsResult: ");
         } else {
+            Log.i("kyus", "else onRequestPermissionsResult: ");
             Toast.makeText(getActivity(), "No GPS permission", Toast.LENGTH_SHORT).show();
             progress.setVisibility(View.INVISIBLE);
         }
@@ -119,7 +124,7 @@ public class ButtonsFragment extends BaseFragment implements ButtonsView, RLocat
     // получить координаты
     @Override
     public void onLocationChanged(Location loc) {
-        Log.i("dfsdgfds", "onLocationChanged: " + loc.getLatitude() + "   " + loc.getLongitude());
+        Log.i("kyus", "onLocationChanged: "+ loc);
         btnGetCoordinates.setEnabled(false);
         btnGetRegion.setEnabled(true);
         progress.setVisibility(View.INVISIBLE);

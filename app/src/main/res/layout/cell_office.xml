@@ -8,14 +8,24 @@
     android:focusable="true"
     android:layout_height="wrap_content">
 
+    <androidx.constraintlayout.widget.Barrier
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="left" />
+
     <TextView
         android:id="@+id/tv_short_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingEnd="95dp"
+        android:text="1111"
         android:textColor="@color/black"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_status"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,19 +33,27 @@
         android:id="@+id/tv_short_adress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_margin="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="1111"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_short_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_short_name" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_short_name"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tv_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:textSize="16sp"
+        android:layout_margin="4dp"
+        android:text="1111"
         android:textColor="@color/green"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_short_name" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
