@@ -28,23 +28,21 @@ public class ButtonsProvider {
             @Override
             public void onFailure(@NotNull Call<List<Region>> call, @NotNull Throwable t) {
                 buttonsPresenter.onError(String.valueOf(t));
+                Log.i("kyus", "onFailure: " + t);
             }
 
             @Override
             public void onResponse(@NotNull Call<List<Region>> call, @NotNull Response<List<Region>> response) {
                 if (response.code() == 200) {
+
                     Integer region = response.body().get(0).getId();
                     buttonsPresenter.loadedRegion(region);
                 } else {
+                    Log.i("kyus", "onResponse: " + response.code());
                     buttonsPresenter.onError("Error: " + response.code());
                 }
             }
         });
     }
 
-
-
-
 }
-
-

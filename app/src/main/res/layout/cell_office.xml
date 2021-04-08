@@ -21,13 +21,13 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingEnd="95dp"
-        android:text="1111"
         android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/tv_status"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry" />
 
     <TextView
         android:id="@+id/tv_short_adress"
@@ -36,7 +36,6 @@
         android:layout_margin="4dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="1111"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:text="1111"
         android:textColor="@color/green"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

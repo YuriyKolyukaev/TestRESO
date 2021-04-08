@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import moxy.MvpAppCompatActivity;
+import ru.kolyukaev.testreso.data.model.ProgressEuroProtocol;
 import ru.kolyukaev.testreso.view.fragments.ButtonsFragment;
 
 public class MainActivity extends MvpAppCompatActivity {
